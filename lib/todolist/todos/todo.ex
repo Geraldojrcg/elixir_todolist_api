@@ -18,7 +18,7 @@ defmodule Todolist.Todos.Todo do
   def changeset(todo, attrs) do
     todo
     |> cast(attrs, [:title, :description, :completed, :user_id])
-    |> validate_required([:title, :description])
+    |> validate_required([:title, :description, :user_id])
     |> validate_length(:title, min: 1, max: 40)
     |> validate_length(:description, min: 1)
   end

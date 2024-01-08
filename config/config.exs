@@ -39,10 +39,14 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
-# Import environment specific config. This must remain at the bottom
-# of this file so it overrides the configuration defined above.
-import_config "#{config_env()}.exs"
-
 config :argon2_elixir,
   t_cost: 1,
   m_cost: 8
+
+config :todolist, TodolistWeb.Guardian,
+       issuer: "todolist",
+       secret_key: "egWw0b7PNSvdBJBEQu3s1KIFIZHMeAAXEfR23UFlQx8G2pQqwDnhJvlg2TFTLYVn"
+
+# Import environment specific config. This must remain at the bottom
+# of this file so it overrides the configuration defined above.
+import_config "#{config_env()}.exs"

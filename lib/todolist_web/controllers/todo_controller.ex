@@ -12,7 +12,8 @@ defmodule TodolistWeb.TodoController do
   end
 
   def create(conn, %{"todo" => todo_params}) do
-    with {:ok, %Todo{} = todo} <- Todos.create_todo(todo_params) do
+    user = Guardian.Plug.current_resource(conn)
+    with {:ok, %Todo{} = todo} <- Todos.create_todo(Map.merge(todo_params, %{"user_id" => user.id})) do
       conn
       |> put_status(:created)
       |> put_resp_header("location", ~p"/api/todos/#{todo}")
@@ -25,7 +26,7 @@ defmodule TodolistWeb.TodoController do
     render(conn, :show, todo: todo)
   end
 
-  def update(conn, %{"id" => id, "todo" => todo_params}) do
+  def update(%Plug.Conn{body_params: %{"todo" => todo_params}} = conn, %{"id" => id, "todo" => todo_params}) do
     todo = Todos.get_todo!(id)
 
     with {:ok, %Todo{} = todo} <- Todos.update_todo(todo, todo_params) do

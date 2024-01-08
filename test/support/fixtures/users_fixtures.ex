@@ -7,7 +7,7 @@ defmodule Todolist.UsersFixtures do
   @doc """
   Generate a unique user email.
   """
-  def unique_user_email, do: "some email#{System.unique_integer([:positive])}"
+  def unique_user_email, do: "some_email#{System.unique_integer([:positive])}@mail.com"
 
   @doc """
   Generate a user.
@@ -20,7 +20,7 @@ defmodule Todolist.UsersFixtures do
         name: "some name",
         password: "some password"
       })
-      |> Todolist.Users.create_user()
+      |> Todolist.Accounts.Users.create_user()
 
     user
   end

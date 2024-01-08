@@ -1,16 +1,10 @@
 defmodule TodolistWeb.TodoJSON do
   alias Todolist.Todos.Todo
 
-  @doc """
-  Renders a list of todos.
-  """
   def index(%{todos: todos}) do
     %{data: for(todo <- todos, do: data(todo))}
   end
 
-  @doc """
-  Renders a single todo.
-  """
   def show(%{todo: todo}) do
     %{data: data(todo)}
   end
@@ -20,7 +14,8 @@ defmodule TodolistWeb.TodoJSON do
       id: todo.id,
       title: todo.title,
       description: todo.description,
-      completed: todo.completed
+      completed: todo.completed,
+      user_id: todo.user_id
     }
   end
 end

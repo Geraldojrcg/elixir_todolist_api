@@ -5,11 +5,33 @@ defmodule TodolistWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :maybe_browser_auth do
+    plug(
+      Guardian.Plug.Pipeline,
+      error_handler: TodolistWeb.AuthController,
+      module: TodolistWeb.Guardian
+    )
+    plug(Guardian.Plug.VerifyHeader, claims: %{"typ" => "access"})
+    plug(Guardian.Plug.LoadResource, allow_blank: true)
+  end
+
+  pipeline :ensure_authed_access do
+    plug Guardian.Plug.EnsureAuthenticated
+  end
+
   scope "/api", TodolistWeb do
     pipe_through :api
 
-    resources "/users", UserController, except: [:new, :edit]
-    resources "/todos", TodoController, except: [:new, :edit]
+    post "/auth/login", AuthController, :create
+    post "/auth/register", AuthController, :register
+
+  end
+
+  scope "/api", TodolistWeb do
+    pipe_through [:api, :maybe_browser_auth, :ensure_authed_access]
+
+    resources "/users", UserController
+    resources "/todos", TodoController
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development

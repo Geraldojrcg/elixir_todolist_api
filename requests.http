@@ -1,0 +1,69 @@
+# @name login
+POST http://localhost:4000/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "geraldo+2@mail.com",
+  "password": "qwe123qwe"
+}
+
+###
+
+@authToken = {{login.response.body.token}}
+
+POST http://localhost:4000/api/auth/register
+Content-Type: application/json
+
+{
+  "user": {
+    "name": "Geraldo 4",
+    "email": "geraldo+4@mail.com",
+    "password": "qwe123qwe"
+  }
+}
+
+###
+
+GET http://localhost:4000/api/users
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+GET http://localhost:4000/api/users/3
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+GET http://localhost:4000/api/todos
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+POST http://localhost:4000/api/todos
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "todo": {
+    "title": "Lorem ipsun",
+    "description": "Lorem ipsunm asdoit  asdkujb aksduaidn aksdhju"
+  }
+}
+
+###
+
+PUT http://localhost:4000/api/todos/1
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "todo": {
+    "title": "Lorem ipsun",
+    "description": "Lorem ipsunm test",
+    "completed": true,
+    "user_id": 3
+  }
+}

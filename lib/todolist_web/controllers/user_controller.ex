@@ -13,7 +13,7 @@ defmodule TodolistWeb.UserController do
 
   def show(conn, %{"id" => id}) do
     user = Users.get_user!(id)
-    render(conn, :show, user: user)
+    render(conn, :show, user: user, todos: user.todos)
   end
 
   def update(conn, %{"id" => id, "user" => user_params}) do

@@ -13,9 +13,10 @@ defmodule Todolist.TodosFixtures do
       |> Enum.into(%{
         completed: true,
         description: "some description",
-        title: "some title"
+        title: "some title",
+        user_id: 1
       })
-      |> Todolist.Todos.create_todo()
+      |> Todolist.Todos.Todos.create_todo()
 
     todo
   end
